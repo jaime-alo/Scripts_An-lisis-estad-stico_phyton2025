@@ -1,5 +1,6 @@
 # Scripts_An-lisis-estad-stico_phyton2025
 #Script1
+
 print("hello world")
 greetings = "hello world"
 print(greetings)
