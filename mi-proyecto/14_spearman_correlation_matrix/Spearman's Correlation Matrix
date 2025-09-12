@@ -1,0 +1,35 @@
+# Read in the data from the csv file
+
+import pandas as pd
+
+CO2Data = pd.read_csv("C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv")
+
+# Selec the columns we want to use
+ta_sal_dic_df = CO2Data[['sal_psu', 'ta_micromol_kg', 'dic_micromol_kg']]
+
+# Print df head to check
+print(ta_sal_dic_df.head())
+
+#Calculate the Spearman correlation matrix
+corr_matrix = ta_sal_dic_df.corr(method='spearman')
+
+# Plot the Spearman correlation matrix
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Plot the heatmap 
+plt.figure(figsize=(8, 6))
+sns.set(style="white", font_scale=1.2)
+sns.heatmap(corr_matrix, 
+            annot=True, 
+            fmt=".2f", 
+            cmap='cividis', 
+            square=True, 
+            linewidths=0.5, 
+            linecolor='gray',
+            cbar_kws={'shrink': 0.8})
+
+plt.title('Spearman Correlation Matrix', fontsize=14, weight='bold')
+plt.tight_layout()
+plt.show()

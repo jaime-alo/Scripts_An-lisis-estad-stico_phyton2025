@@ -1,0 +1,43 @@
+def import_csv(file):
+    # Read the file into a DataFrame: df
+    import pandas as pd
+    return pd.read_csv(file)
+
+# Path to the file to be imported
+path = "C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv"
+
+# Import the file
+CO2Data = import_csv(path)
+
+# Beware! the data are not normal. This exercise is only an example
+
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+
+def two_way_anova_tukey(df, response, factor1, factor2, alpha=0.05):
+    """
+    Performs a two-way ANOVA and Tukey HSD post-hoc test if significant effects are found.
+
+    Parameters:
+    - df (DataFrame): The dataset.
+    - response (str): Dependent variable column.
+    - factor1 (str): First independent variable column.
+    - factor2 (str): Second independent variable column.
+    - alpha (float): Significance level (default = 0.05).
+    """
+    # Fit the two-way ANOVA model and generate the ANOVA table
+    model = ols(f'{response} ~ C({factor1}) + C({factor2}) + C({factor1}):C({factor2})', data=df).fit()
+    anova_table = sm.stats.anova_lm(model, typ=2)
+    print("\nANOVA Results:\n", anova_table)
+
+    # Run Tukey HSD post-hoc test if significant effects are found
+    if (anova_table['PR(>F)'] < alpha).any():
+        print("\nSignificant effects detected. Running Tukey HSD post-hoc test:")
+        df['Group'] = df[factor1].astype(str) + " - " + df[factor2].astype(str)
+        tukey = pairwise_tukeyhsd(df[response], df['Group'], alpha=alpha)
+        print(tukey.summary())
+    else:
+        print("\nNo significant effects detected. Post-hoc test is not required.")
+
+two_way_anova_tukey(CO2Data, response="ta_micromol_kg", factor1="season", factor2="estuary")

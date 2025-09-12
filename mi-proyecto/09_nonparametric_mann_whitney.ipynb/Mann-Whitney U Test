@@ -1,0 +1,181 @@
+def import_csv(file):
+    # Read the file into a DataFrame: df
+    import pandas as pd
+    return pd.read_csv(file)
+
+# Path to the file to be imported
+path = "C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv"
+
+# Import the file
+CO2Data = import_csv(path)
+
+# Print the head of the DataFrame
+print(CO2Data.head())
+
+# Mann-Whitney U test
+from scipy.stats import mannwhitneyu
+
+def mann_whitney_test(data1, data2, alpha=0.05):
+    """
+    Performs the Mann-Whitney U test and prints U statistic, p-value, and result.
+    """
+    result = mannwhitneyu(data1, data2, alternative='two-sided')
+    
+    print(f"U statistic = {result.statistic}")
+    print(f"p-value = {result.pvalue}")
+
+    if result.pvalue < alpha:
+        print("The difference is statistically significant.")
+    else:
+        print("The difference is not statistically significant.")
+
+# Plot the box plot of TA by season
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create a box plot
+sns.boxplot(x='season', y='ta_micromol_kg', data=CO2Data)
+#sns.swarmplot(x='season', y='sal_psu', data=co2_data, color=".25")
+
+# Add labels and title
+plt.xlabel('Season')
+plt.ylabel('TA (μmol/kg)')
+plt.title('Box Plot of TA by Season')
+
+# Show the plot
+plt.show()
+
+# Filter the TA data by season
+ta_dry = CO2Data.loc[CO2Data["season"] == "Dry", "ta_micromol_kg"]
+ta_rainy = CO2Data.loc[CO2Data["season"] == "Rainy", "ta_micromol_kg"]
+
+# Perform the Mann-Whitney U test for TA between dry and rainy seasons
+mann_whitney_test(ta_dry, ta_rainy)
+
+# Plot the box plot of TA by season
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create a box plot
+sns.boxplot(x='season', y='ta_micromol_kg', data=CO2Data)
+#sns.swarmplot(x='season', y='sal_psu', data=co2_data, color=".25")
+
+# Add labels and title
+plt.xlabel('Season')
+plt.ylabel('TA (μmol/kg)')
+plt.title('Box Plot of Salinity by Season')
+
+# Show the plot
+plt.show()
+
+# Plot the box plot of salinity by season
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create a box plot
+sns.boxplot(x='season', y='sal_psu', data=CO2Data)
+sns.swarmplot(x='season', y='sal_psu', data=CO2Data, color=".25")
+
+# Add labels and title
+plt.xlabel('Season')
+plt.ylabel('Salinity (PSU)')
+plt.title('Box Plot of Salinity by Season')
+
+# Show the plot
+plt.show()
+
+# Filter the salinity data by season
+sal_dry = CO2Data.loc[CO2Data["season"] == "Dry", "sal_psu"]
+sal_rainy = CO2Data.loc[CO2Data["season"] == "Rainy", "sal_psu"]
+
+# Perform the Mann-Whitney U test for salinity between dry and rainy seasons
+mann_whitney_test(sal_dry, sal_rainy)
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+# Create a box plot
+sns.violinplot(x='season', y='sal_psu', data=CO2Data)
+
+plt.title('Salinity Distribution by Season')
+plt.xlabel('Season')
+plt.ylabel('Salinity (PSU)')
+plt.show()
+
+
+
+
+#DIC
+# Plot the box plot of TA by season
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create a box plot
+sns.boxplot(x='season', y='dic_micromol_kg', data=CO2Data)
+#sns.swarmplot(x='season', y='sal_psu', data=co2_data, color=".25")
+
+# Add labels and title
+plt.xlabel('Season')
+plt.ylabel('dic (μmol/kg)')
+plt.title('Box Plot of dic by Season')
+
+# Show the plot
+plt.show()
+
+# Filter the TA data by season
+dic_dry = CO2Data.loc[CO2Data["season"] == "Dry", "dic_micromol_kg"]
+dic_rainy = CO2Data.loc[CO2Data["season"] == "Rainy", "dic_micromol_kg"]
+
+# Perform the Mann-Whitney U test for TA between dry and rainy seasons
+mann_whitney_test(dic_dry, dic_rainy)
+
+# Plot the box plot of TA by season
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create a box plot
+sns.boxplot(x='season', y='dic_micromol_kg', data=CO2Data)
+#sns.swarmplot(x='season', y='sal_psu', data=co2_data, color=".25")
+
+# Add labels and title
+plt.xlabel('Season')
+plt.ylabel('dic (μmol/kg)')
+plt.title('Box Plot of dic by Season')
+
+# Show the plot
+plt.show()
+
+
+
+
+#T
+# Plot the box plot of temp_c by season
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create a box plot
+sns.boxplot(x='season', y='temp_c', data=CO2Data)
+sns.swarmplot(x='season', y='temp_c', data=CO2Data, color=".25")
+
+# Add labels and title
+plt.xlabel('Season')
+plt.ylabel('Salinity (PSU)')
+plt.title('Box Plot of temp_c by Season')
+
+# Show the plot
+plt.show()
+
+
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+# Create a box plot
+sns.violinplot(x='season', y='temp_c', data=CO2Data)
+
+plt.title('Temp Distribution by Season')
+plt.xlabel('Season')
+plt.ylabel('T (c)')
+plt.show()

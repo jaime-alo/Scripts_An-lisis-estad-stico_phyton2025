@@ -1,0 +1,81 @@
+import pandas as pd
+
+# Import the air quality dataset 
+CO2Data = pd.read_csv("C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv")
+
+print(CO2Data.info())
+
+# Plot a simple histogram
+import matplotlib.pyplot as plt
+
+# Select data
+sal_data = CO2Data["sal_psu"]
+
+plt.hist(sal_data, bins=10)
+plt.xlabel("Salinity (PSU)")
+plt.ylabel("Probablity")
+plt.show()
+
+# Normalizar nuestras entradas por el número total de conteos
+# Plot the histogram with density (nomalized)
+# Select data 
+data = CO2Data["sal_psu"]
+
+
+plt.hist(data, bins=10, density=True)
+plt.xlabel("Salinity (PSU)")
+plt.ylabel("Probablity")
+plt.show()
+
+# Boxplot Demo
+# Creating plot
+
+do_data = CO2Data["do_mg_l"]
+plt.boxplot(do_data)
+
+plt.xlabel("DO (mg/L)")
+plt.ylabel("Concentration")
+plt.title("Boxplot of DO Concentration")
+
+# show plot
+plt.show()
+
+# Plot boxplot for salinity data
+data = CO2Data["sal_psu"]
+
+fig2, ax2 = plt.subplots()
+
+ax2.set_title('Notched boxes')
+ax2.boxplot(data, notch=True)
+
+plt.ylabel('Salinity ($PSU$)', fontsize = 12)
+plt.show()
+
+# Boxplot Demo 2
+# Plot boxplot for TA data
+green_diamond = dict(markerfacecolor='g', marker='D')
+fig3, ax3 = plt.subplots()
+
+ax3.set_title('Changed Outlier Symbols')
+
+ax3.boxplot(data, flierprops=green_diamond)
+
+
+plt.ylabel('TA ($\mu mol  \; kg^{-1}$)', fontsize = 12)
+plt.show()
+
+# Import the air quality dataset 
+CO2Data = pd.read_csv("C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv")
+
+print(CO2Data.info())
+
+# Ejercicio
+import matplotlib.pyplot as plt
+
+# Select data
+DIC_TA = CO2Data["sal_psu"]
+
+plt.hist(DIC_TA, bins=10)
+plt.xlabel("dic_micromol_kg")
+plt.ylabel("ta_micromol_kg")
+plt.show()

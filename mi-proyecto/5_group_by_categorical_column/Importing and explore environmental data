@@ -1,0 +1,60 @@
+def import_csv(file):
+    # Read the file into a DataFrame: df
+    import pandas as pd
+    return pd.read_csv(file)
+
+# Path to the file to be imported
+path = "C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv"
+
+# Import the file
+CO2Data = import_csv(path)
+
+# Print the head of the DataFrame
+print(CO2Data.head())
+
+#Agrupe los datos por una columna categórica y calcule la media y la desviación estándar de una columna numérica
+# Definir las columnas a analizar
+variables = ['dic_micromol_kg', 'ta_micromol_kg', 'sal_psu']
+
+# Definir las columnas a analizar
+variables = ['dic_micromol_kg', 'ta_micromol_kg', 'sal_psu']
+
+# Calcular la media y la desviación estándar agrupando por season y estuary
+result = CO2Data.groupby(['season', 'estuary'])[variables].agg(['mean', 'std']).reset_index()
+
+# Renombrar las columnas para mayor claridad
+result.columns = ['_'.join(col).strip() if isinstance(col, tuple) else col for col in result.columns]
+
+# Mostrar el resultado
+print(result)
+
+import pandas as pd
+from tabulate import tabulate
+
+# Suponiendo que ya tienes tu DataFrame CO2Data cargado
+# CO2Data = pd.read_csv('tu_archivo.csv')  # Ejemplo si proviene de un CSV
+
+# Definir las columnas a analizar
+variables = ['dic_micromol_kg', 'ta_micromol_kg', 'sal_psu']
+
+# Calcular la media y la desviación estándar agrupando por season y estuary
+result = CO2Data.groupby(['season', 'estuary'])[variables].agg(['mean', 'std']).reset_index()
+
+# Asignar nombres de columnas adecuados
+result.columns = ['season', 'estuary'] + [f"{var}_{stat}" for var in variables for stat in ['mean', 'std']]
+
+# Formatear los valores para mostrar "media ± desviación estándar" sin notación científica y con dos cifras decimales
+for var in variables:
+    mean_col = f"{var}_mean"
+    std_col = f"{var}_std"
+    result[f"{var}_formatted"] = result.apply(lambda row: f"{row[mean_col]:,.2f} ± {row[std_col]:,.2f}", axis=1)
+
+# Seleccionar solo las columnas formateadas junto con los índices
+formatted_result = result[['season', 'estuary'] + [f"{var}_formatted" for var in variables]]
+
+# Mostrar la tabla con los resultados formateados usando tabulate
+table = tabulate(formatted_result, headers='keys', tablefmt='pretty', showindex=False)
+print(table)
+
+# Guardar la tabla en un archivo CSV
+formatted_result.to_csv("resultados_agrupados.csv", index=False)

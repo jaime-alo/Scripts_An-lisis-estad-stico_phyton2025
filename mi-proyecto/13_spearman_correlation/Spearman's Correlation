@@ -1,0 +1,43 @@
+import pandas as pd
+
+CO2Data = pd.read_csv("C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv")
+
+
+
+from scipy import stats
+
+def test_spearman(x, y, alpha=0.05):
+    if len(x) != len(y):
+        raise ValueError("Las variables deben tener la misma longitud.")
+
+    rho, pval = stats.spearmanr(x, y)
+
+    print(f"Spearman's correlation coefficient (rho): {rho:.3f}")
+    print(f"p-value: {pval:.4f}")
+
+    if pval < alpha:
+        print(f"✔️ Significant relationship (p < {alpha:.3f})")
+    else:
+        print(f"⚠️ No significant relationship (p ≥ {alpha:.3f})")
+
+    if rho > 0:
+        print("📈 Positive correlation")
+    else:
+        print("📉 Negative correlation")
+
+test_spearman(CO2Data["ta_micromol_kg"], CO2Data["dic_micromol_kg"])
+
+# Ejericicio
+
+from scipy.stats import pearsonr
+import numpy as np
+
+# Ejemplo de datos
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([2, 3, 4, 5, 6])
+
+# Calcular la correlación de Pearson
+correlacion, valor_p = pearsonr(x, y)
+
+print(f"Coeficiente de correlación: {correlacion}")
+print(f"Valor p: {valor_p}")

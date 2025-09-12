@@ -1,0 +1,104 @@
+def import_csv(file):
+    # Read the file into a DataFrame: df
+    import pandas as pd
+    return pd.read_csv(file)
+
+# Path to the file to be imported
+path = "C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv"
+
+# Import the file
+CO2Data = import_csv(path)
+
+# Kruskal-Wallis H-test for independent samples
+
+from scipy.stats import kruskal
+
+def kruskal_wallis_test(*groups, alpha=0.05):
+    """
+    Performs the Kruskal-Wallis H-test for independent samples.
+    Accepts multiple groups as arguments.
+    Prints the H statistic, p-value, and interpretation.
+    """
+    result = kruskal(*groups)
+    
+    print(f"H statistic = {result.statistic}")
+    print(f"p-value = {result.pvalue}")
+    
+    if result.pvalue < alpha:
+        print("The difference between groups is statistically significant.")
+    else:
+        print("No statistically significant difference between groups.")
+
+import scikit_posthocs as sp
+# You need to install the scikit-posthocs package: conda install -c conda-forge scikit-posthocs
+
+def dunn_posthoc(data, group_col, value_col, p_adjust='bonferroni'):
+    """
+    Runs Dunn's post-hoc test after Kruskal-Wallis.
+    """
+    result = sp.posthoc_dunn(data, val_col=value_col, group_col=group_col, p_adjust=p_adjust)
+    print(result)
+    return result
+
+# Plot ta values for each area of the lagoon using seaborn
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.boxplot(x='area', y='ta_micromol_kg', data=CO2Data)
+plt.xlabel('Area of the lagoon')
+plt.ylabel('Total Alkalinity (micromol/kg)')
+plt.title('Total Alkalinity by Area of the Lagoon')
+plt.show()
+
+# Select the data for each area of the lagoon
+ta_river = CO2Data[CO2Data['area'] == 'River']['ta_micromol_kg']
+ta_plume = CO2Data[CO2Data['area'] == 'Plume']['ta_micromol_kg']
+ta_coast= CO2Data[CO2Data['area'] == 'Coast']['ta_micromol_kg']
+
+# Perform the Kruskal-Wallis test
+kruskal_wallis_test(ta_river, ta_plume, ta_coast)
+
+dunn_posthoc(CO2Data, 'area', 'ta_micromol_kg')
+
+
+# DIC 
+# Plot ta values for each area of the lagoon using seaborn
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.boxplot(x='area', y='dic_micromol_kg', data=CO2Data)
+plt.xlabel('Area of the lagoon')
+plt.ylabel('Total Alkalinity (micromol/kg)')
+plt.title('Total Alkalinity by Area of the Lagoon')
+plt.show()
+
+# Select the data for each area of the lagoon
+dic_river = CO2Data[CO2Data['area'] == 'River']['dic_micromol_kg']
+dic_plume = CO2Data[CO2Data['area'] == 'Plume']['dic_micromol_kg']
+dic_coast= CO2Data[CO2Data['area'] == 'Coast']['dic_micromol_kg']
+
+# Perform the Kruskal-Wallis test
+kruskal_wallis_test(ta_river, ta_plume, ta_coast)
+
+dunn_posthoc(CO2Data, 'area', 'dic_micromol_kg')
+
+# Temperatura
+# Plot ta values for each area of the lagoon using seaborn
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.boxplot(x='area', y='temp_c', data=CO2Data)
+plt.xlabel('Area of the lagoon')
+plt.ylabel('Total Alkalinity (micromol/kg)')
+plt.title('Total Alkalinity by Area of the Lagoon')
+plt.show()
+
+# Select the data for each area of the lagoon
+temp_river = CO2Data[CO2Data['area'] == 'River']['temp_c']
+temp_plume = CO2Data[CO2Data['area'] == 'Plume']['temp_c']
+temp_coast= CO2Data[CO2Data['area'] == 'Coast']['temp_c']
+
+# Perform the Kruskal-Wallis test
+kruskal_wallis_test(ta_river, ta_plume, ta_coast)
+
+dunn_posthoc(CO2Data, 'area', 'dic_micromol_kg')

@@ -1,0 +1,97 @@
+import pandas as pd
+# Import the air quality dataset 
+
+CO2Data = pd.read_csv("C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv")
+print(CO2Data.info())
+
+
+# Load libs and set figure
+import seaborn as sns
+import matplotlib.pyplot as plt 
+
+#create your own color array (viridis)
+my_colors = ["#5ec962", "#3b528b"]
+
+# add color array to set_palette
+sns.set(font_scale=2, style="ticks", palette= my_colors)
+
+#plot boxplot with Catplot in Seaborn
+
+ax = sns.catplot(data=CO2Data,
+                 x="area", y="ta_micromol_kg",
+                hue="season", col="estuary",
+                kind="box", 
+                height=7, aspect=1)
+
+  
+ax.set(xlabel='', ylabel=' TA ($\mu mol \; kg^{-1}$)')
+
+ax.set_titles(col_template="{col_name}", row_template="{row_name}")
+
+plt.setp(ax._legend.get_title(), fontsize=20)
+
+sns.despine(top=False,right=False)
+
+plt.show()
+
+# plot a violin with Catplot in Seaborn
+
+ax = sns.catplot(data=CO2Data, 
+                x="area", y="ta_micromol_kg",
+                hue="season", col="estuary", 
+                kind="violin", 
+                height=7, aspect=1)
+
+  
+ax.set(xlabel='', ylabel=' TA ($\mu mol \; kg^{-1}$)')
+
+ax.set_titles(col_template="{col_name}", row_template="{row_name}")
+
+plt.setp(ax._legend.get_title(), fontsize=20)
+
+sns.despine(top=False,right=False)
+
+plt.show()
+
+# Plotting a three-way ANOVA
+
+# Draw a pointplot to show pulse as a function of three categorical factors
+ax = sns.catplot(
+    data=CO2Data, x="season", 
+    y="ta_micromol_kg", hue="estuary", col="area",
+    capsize=.2, palette="YlGnBu_d", errorbar="se",
+    kind="point", height=6, aspect=.75,
+)
+ax.despine(left=True)
+
+ax.set(xlabel='', ylabel=' TA ($\mu mol \; kg^{-1}$)')
+
+ax.set_titles(col_template="{col_name}", row_template="{row_name}")
+
+plt.setp(ax._legend.get_title(), fontsize=20)
+
+sns.despine(top=False,right=False)
+
+plt.show()
+
+# Scatterplots DIC vs Salinity by Estuary
+
+ax = sns.lmplot(x="sal_psu", y="ta_micromol_kg",
+                hue="season",col="estuary",
+                data=CO2Data, 
+                height=7, aspect=1)
+
+ax.set(xlabel='Salinity (PSU)', ylabel=' DIC ($\mu mol \; kg^{-1}$)')
+
+ax.set_titles(col_template="{col_name}", row_template="{row_name}")
+
+plt.setp(ax._legend.get_title(), fontsize=20)
+
+sns.despine(top=False,right=False)
+
+plt.show()
+
+# Ejercicio
+# ¿Cómo se pueden modificar las unidades de las figuras?
+# Se cambian las unidades con "import matplotlib.pyplot as plt"
+#plt.ylabel('Unidades Deseadas (ej. Metros, Kg)')

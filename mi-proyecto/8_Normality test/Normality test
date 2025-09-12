@@ -1,0 +1,79 @@
+def import_csv(file):
+    # Read the file into a DataFrame: df
+    import pandas as pd
+    return pd.read_csv(file)
+
+# Path to the file to be imported
+path = "C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv"
+
+# Import the file
+CO2Data = import_csv(path)
+
+# Print the head of the DataFrame
+print(CO2Data.head())
+
+# Shapiro-Wilk Test
+# If the p-value of the test is greater than α = 0.05, then the data is assumed to be normally distributed.
+from scipy.stats import shapiro
+
+ta = CO2Data['ta_micromol_kg']
+
+stat, p = shapiro(ta)
+print(f'Estadístico= {stat:.5f}, p-valor= {p:.5f}')
+if p > 0.05:
+    print("La distribución es normal (no se rechaza H0)")
+else:
+    print("La distribución NO es normal (se rechaza H0)")
+
+from scipy.stats import shapiro 
+
+#perform Shapiro-Wilk test for normality
+
+TA = CO2Data['ta_micromol_kg']
+
+shapiro_results = shapiro(TA)
+
+
+print(f'Statistic= {stat:.5f}, p-value= {p:.5f}')
+
+if shapiro_results.pvalue < 0.05:
+    print("The data is not normally distributed (reject H₀).")
+
+else:
+    print("The data is normally distributed (fail to reject H₀).")
+
+print(shapiro_results)
+
+# Exercise
+# Responda la siguiente pregunta: ¿Cuándo es apropiado utilizar la prueba de Kolmogorov-Smirnov en lugar de la prueba de Shapiro-Wilk?
+# Cuando la muestra es n≥ 50. es una buena alternativa para la normalidad en muestras más grandes, ya que puede probar si los datos provienen de una distribución normal sin necesidad de conocer la media y la varianza poblacionales. 
+
+# Con base en la respuesta anterior, realice la prueba adecuada para evaluar la normalidad en los conjuntos de datos DIC (carbono inorgánico disuelto) y salinidad.
+#dic
+dic = CO2Data['dic_micromol_kg']
+
+shapiro_results = shapiro(dic)
+
+
+print(f'Statistic= {stat:.5f}, p-value= {p:.5f}')
+
+if shapiro_results.pvalue < 0.05:
+    print("The data is not normally distributed (reject H₀).")
+
+else:
+    print("The data is normally distributed (fail to reject H₀).")
+
+#salinidad sal_psu
+
+sal = CO2Data['sal_psu']
+
+shapiro_results = shapiro(sal)
+
+
+print(f'Statistic= {stat:.5f}, p-value= {p:.5f}')
+
+if shapiro_results.pvalue < 0.05:
+    print("The data is not normally distributed (reject H₀).")
+
+else:
+    print("The data is normally distributed (fail to reject H₀).")

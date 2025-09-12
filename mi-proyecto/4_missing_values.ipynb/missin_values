@@ -1,0 +1,78 @@
+def import_csv(file):
+    # Read the file into a DataFrame: df
+    import pandas as pd
+    return pd.read_csv(file)
+
+# Path to the file to be imported
+path = "C:\\\\Users\\\\DELL\\\\Desktop\\\\Curso_Análisis Estadistico_Phyton2025\\\\Curso_Analisis-estad-stico\\\\scritps_nuevo\\\\mi-proyecto\\\\script_3_Exploring data pandas data frame\\\\Terminos_lagoon_TA_DIC_2023_RawData.csv"
+
+# Import the file
+CO2Data = import_csv(path)
+
+# Exploring DataFrame
+
+# Imprima el número de filas y columnas en el DataFrame
+print(CO2Data.shape)
+
+# Imprimir el encabezado del DataFrame
+print(CO2Data.head())
+
+#Imprimir información sobre un DataFrame, incluido el índice, el tipo de datos y las columnas, los valores no nulos y el uso de memoria
+
+# Imprimir información sobre el DataFrame
+print(CO2Data.info())
+
+# Imprimir estadísticas descriptivas
+print(CO2Data.describe())
+
+# Agrupe los datos por una columna categórica y calcule la media y la desviación estándar de una columna numérica
+# Valores faltantes en cada columna.
+
+# Utilice la función isnull() de Pandas para identificar el número de valores faltantes en cada columna.
+print(CO2Data.isnull().sum())
+
+# Método a utilizar para rellenar huecos en series reindexadas:
+# ffill: propaga la última observación válida a la siguiente.
+# bfill: usa la siguiente observación válida para rellenar el espacio.
+
+# Crear nuevo marco de datos
+CO2Data_fill = CO2Data.copy()
+
+# Utilice el método de relleno
+CO2Data_fill = CO2Data_fill.fillna(method="ffill")
+print(CO2Data_fill.isnull().sum())
+
+# Interpolación para completar valores faltantes
+CO2Data_fill_linear = CO2Data.copy()
+CO2Data_fill_linear = CO2Data_fill_linear.interpolate(method='linear')
+print(CO2Data_fill_linear.isnull().sum())
+
+# Ejercicios
+# Cree una nueva columna llamada "TA_DIC_ratio" que sea la relación entre TA y DIC
+CO2Data['TA_DIC_ratio'] = CO2Data['ta_micromol_kg'] / CO2Data['dic_micromol_kg']
+print(CO2Data[['ta_micromol_kg', 'dic_micromol_kg', 'TA_DIC_ratio']].head())
+
+# Calcular la media y la desviación estándar del “TA_DIC_ratio” para cada temporada
+media_TA_DIC = CO2Data['TA_DIC_ratio'].mean()
+print(media_TA_DIC)
+
+desvest_TA_DIC = CO2Data['TA_DIC_ratio'].std()
+print(desvest_TA_DIC)
+
+# Calcular la media y la desviación estándar del “TA_DIC_ratio” para cada estación y zona
+media_TA_DIC = CO2Data['area'].mean()
+print(media_TA_DIC)
+
+desvest_TA_DIC = CO2Data['area'].std()
+print(desvest_TA_DIC)
+
+media_TA_DIC = CO2Data['estuary'].mean()
+print(media_TA_DIC)
+
+desvest_TA_DIC = CO2Data['estuary'].std()
+print(desvest_TA_DIC)
+
+# Save the results to an Excel file called "TA_DIC_Season_Areas.xlsx"
+TA_DIC_Season_Areas.xlsx = 'CO2Data'
+df.to_excel(nombre_archivo, index=False) # index=False evita que se guarde el índice del DataFrame
+    print(f'Archivo "{nombre_archivo}" guardado correctamente.')
